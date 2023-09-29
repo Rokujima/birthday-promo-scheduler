@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "35422e47-f612-4afb-b11c-d86fb673835d",
+		"name": "Promotion Birthday",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1805243"
+	},
+	"item": [
+		{
+			"name": "Fetch User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch Promosi",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/promos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"promos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Import User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/users/import",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"users",
+						"import"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

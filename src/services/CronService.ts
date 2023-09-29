@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import UserService from './UserService'
 import PromoService from './PromoService';
-import { addDays, format } from 'date-fns';
+import { addDays } from 'date-fns';
 import EmailNotification from './NotificationService';
 import LogService from './LogService';
 import { IUser } from './../models/User';
@@ -19,14 +19,18 @@ interface NoticationParams {
   notificationType: noticationType
 }
 
+const userService = new UserService();
+const promoService = new PromoService();
+const logService = new LogService();
+
 class CronService {
+
+
   startCronJobs() {
     console.info('Start Cron Job')
     cron.schedule('0 0 * * *', async () => {
-      const Cl_User = new UserService();
-      const Cl_Promo = new PromoService();
-
-      const fetchUser=  await Cl_User.fetchUsers({
+      
+      const fetchUser=  await userService.fetchUsers({
         verifiedStatus: true,
         isBirthday: true
       });
@@ -34,7 +38,7 @@ class CronService {
       const currentDate = new Date();
 
       for(const item of fetchUser){
-        const promotion = await Cl_Promo.generatePromoCode({
+        const promotion = await promoService.generatePromoCode({
           name: 'Voucher Special Birthday For You',
           amount: 20000,
           endDate: addDays(currentDate, 2),
@@ -63,8 +67,7 @@ class CronService {
   GeneratePromotionFailed(promotion: IPromo){
     if(!promotion){
       console.info('Sorry Generate Promotion Problem');
-      const Cl_Log = new LogService();
-      Cl_Log.create({
+      logService.create({
         event: 'Error Promotion Generated',
         date: new Date(),
         message: promotion

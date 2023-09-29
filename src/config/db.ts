@@ -1,12 +1,9 @@
 import mongoose from 'mongoose';
 
-export const connectToDB = async () => {
+async function connectToDB(){
   try {
-    await mongoose.connect(process.env.MONGO_URI+'sayakaya', {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-      useCreateIndex: true,
+    await mongoose.connect(`${process.env.MONGO_URI}`, {
+      dbName: 'sayakaya'
     });
     console.log('Connected to MongoDB');
   } catch (error) {
@@ -14,3 +11,5 @@ export const connectToDB = async () => {
     process.exit(1);
   }
 }; 
+
+export default connectToDB; 

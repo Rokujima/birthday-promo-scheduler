@@ -7,6 +7,7 @@
     amount: number;
     validUsersID: string[];
   }
+
   
   class PromoService {
     generateUniquePromoCode(length: number = 8): string {
@@ -36,6 +37,10 @@
         await promo.save();
       
         return promo;
+      }
+
+      async fetchPromo(): Promise<IPromo[]> {
+        return promoSchema.find().exec();
       }
   }
 

@@ -9,30 +9,29 @@ interface UserFilterField {
 
 class UserService {
 
-    private query: any = {};
-
     async fetchUsers({ email, verifiedStatus, isBirthday }: UserFilterField): Promise<IUser[]> {
+        const query = {};
         
-        this.filterEmail(email);
+        this.filterEmail(query, email);
 
-        this.verifiedStatus(verifiedStatus);
+        this.verifiedStatus(query, verifiedStatus);
 
-        this.isBirthday(isBirthday);
+        this.isBirthday(query, isBirthday);
 
-        const users = await User.find(this.query);
+        const users = await User.find(query);
       
         return users;
     }
 
-    filterEmail(email: string | any){
-        return email !== undefined ? this.query.email = email : '';
+    filterEmail(query: any, email: string | any){
+        email !== undefined ? query.email = email : '';
     }
 
-    verifiedStatus(status: boolean = false){
-        return status ? this.query.isVerified = status : '';
+    verifiedStatus(query: any, status: boolean = false){
+        status ? query.isVerified = status : '';
     }
 
-    isBirthday(status: boolean = false){
+    isBirthday(query: any, status: boolean = false){
 
         const today = new Date();
         const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
@@ -43,7 +42,44 @@ class UserService {
           $lt: endOfDay,
         };
 
-        return status ? this.query.birthday = birthday : '';
+        status ? query.birthday = birthday : '';
+    }
+
+    import() {
+        return User.insertMany([
+            {
+              username: 'user1',
+              firstname: 'John',
+              lastname: 'Doe',
+              birthday: new Date('1990-01-15'),
+              email: 'john@example.com',
+              isVerified: true,
+            },
+            {
+              username: 'user2',
+              firstname: 'Jane',
+              lastname: 'Smith',
+              birthday: new Date('1985-05-20'),
+              email: 'jane@example.com',
+              isVerified: true,
+            },
+            {
+              username: 'user3',
+              firstname: 'Alice',
+              lastname: 'Johnson',
+              birthday: new Date('1995-09-10'),
+              email: 'alice@example.com',
+              isVerified: false,
+            },
+            {
+              username: 'user4',
+              firstname: 'Bob',
+              lastname: 'Brown',
+              birthday: new Date('1982-03-25'),
+              email: 'bob@example.com',
+              isVerified: true,
+            },
+          ]);
     }
 
 }
